@@ -1,0 +1,384 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.5.281 Build 20190815
+
+Compiler options: -O3 -qopenmp -std=c11 -qopt-report=3 -qopt-report-file=stencil-nearly-icc.optrpt -o stencil-nearly-icc
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+
+Begin optimization report for: atoi(const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+NEVER EMIT DEFINITION FUNCTION: (atoi(const char *))/usr/include/stdlib.h(279,1)
+
+===========================================================================
+
+Begin optimization report for: read_num_dims(char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (read_num_dims(char *)) [2] file-reader.c(25,1)
+  -> EXTERN: (27,18) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (31,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (37,9) fgets(char *__restrict__, int, FILE *__restrict__)
+  -> EXTERN: (39,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (43,23) strlen(const char *)
+  -> EXTERN: (55,5) fclose(FILE *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at file-reader.c(47,5)
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 19 
+   remark #15477: vector cost: 2.750 
+   remark #15478: estimated potential speedup: 6.440 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=31
+LOOP END
+
+LOOP BEGIN at file-reader.c(47,5)
+<Remainder loop for vectorization>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 19 
+   remark #15477: vector cost: 2.750 
+   remark #15478: estimated potential speedup: 6.440 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=125
+LOOP END
+
+LOOP BEGIN at file-reader.c(47,5)
+<Remainder loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=500
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+file-reader.c(25,1):remark #34051: REGISTER ALLOCATION : [read_num_dims] file-reader.c:25
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   16[ rax rdx rcx rbx rsi rdi r8-r10 r15 zmm0-zmm5]
+        
+    Routine temporaries
+        Total         :      88
+            Global    :      30
+            Local     :      58
+        Regenerable   :      17
+        Spilled       :       2
+        
+    Routine stack
+        Variables     :     500 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: read_dims(char *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (read_dims(char *, int)) [3] file-reader.c(61,1)
+  -> EXTERN: (63,18) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (67,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (73,9) fgets(char *__restrict__, int, FILE *__restrict__)
+  -> EXTERN: (75,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (81,13) strtok(char *__restrict__, const char *__restrict__)
+  -> EXTERN: (83,17) malloc(size_t)
+  -> EXTERN: (87,9) printf(const char *__restrict__, ...)
+  -> INLINE (MANUAL): (94,19) atoi(const char *)
+    -> EXTERN: /usr/include/stdlib.h:(280,16) strtol(const char *__restrict__, char **__restrict__, int)
+  -> EXTERN: (96,17) strtok(char *__restrict__, const char *__restrict__)
+  -> EXTERN: (99,5) fclose(FILE *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at file-reader.c(92,5)
+   remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+file-reader.c(61,1):remark #34051: REGISTER ALLOCATION : [read_dims] file-reader.c:61
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    8[ rax rdx rcx rbx rbp rsi rdi r15]
+        
+    Routine temporaries
+        Total         :      56
+            Global    :      22
+            Local     :      34
+        Regenerable   :      22
+        Spilled       :       3
+        
+    Routine stack
+        Variables     :     502 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       1 [9.02e-01 ~ 1.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: read_array(char *, int *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (read_array(char *, int *, int)) [4] file-reader.c(105,1)
+  -> EXTERN: (107,18) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (111,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (117,9) fgets(char *__restrict__, int, FILE *__restrict__)
+  -> EXTERN: (119,9) printf(const char *__restrict__, ...)
+  -> INLINE: (123,26) product(int *, int)
+  -> EXTERN: (124,19) malloc(size_t)
+  -> EXTERN: (128,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (135,13) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (137,13) printf(const char *__restrict__, ...)
+  -> EXTERN: (142,5) fclose(FILE *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at file-reader.c(186,5) inlined into file-reader.c(123,26)
+<Peeled loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=3
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5) inlined into file-reader.c(123,26)
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 3 
+   remark #15477: vector cost: 1.750 
+   remark #15478: estimated potential speedup: 1.570 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5) inlined into file-reader.c(123,26)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at file-reader.c(133,5)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ file-reader.c(138,20) ]
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+file-reader.c(105,1):remark #34051: REGISTER ALLOCATION : [read_array] file-reader.c:105
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   17[ rax rdx rcx rbx rbp rsi rdi r8-r9 r13-r15 zmm0-zmm4]
+        
+    Routine temporaries
+        Total         :     101
+            Global    :      30
+            Local     :      71
+        Regenerable   :      26
+        Spilled       :       5
+        
+    Routine stack
+        Variables     :     500 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: write_to_output_file(char *, float *, int *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_to_output_file(char *, float *, int *, int)) [5] file-reader.c(148,1)
+  -> EXTERN: (150,18) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (154,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (158,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (163,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (165,5) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> INLINE: (167,26) product(int *, int)
+  -> EXTERN: (169,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (172,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (175,5) fclose(FILE *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at file-reader.c(161,5)
+   remark #15527: loop was not vectorized: function call to fprintf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ file-reader.c(163,9) ]
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5) inlined into file-reader.c(167,26)
+<Peeled loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=3
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5) inlined into file-reader.c(167,26)
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 3 
+   remark #15477: vector cost: 1.750 
+   remark #15478: estimated potential speedup: 1.570 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5) inlined into file-reader.c(167,26)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at file-reader.c(170,5)
+   remark #15527: loop was not vectorized: function call to fprintf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ file-reader.c(172,9) ]
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+file-reader.c(148,1):remark #34051: REGISTER ALLOCATION : [write_to_output_file] file-reader.c:148
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   17[ rax rdx rcx rbx rbp rsi rdi r8 r12-r15 zmm0-zmm4]
+        
+    Routine temporaries
+        Total         :      96
+            Global    :      27
+            Local     :      69
+        Regenerable   :      24
+        Spilled       :       6
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: product(int *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (product(int *, int)) [6] file-reader.c(181,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at file-reader.c(186,5)
+<Peeled loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=3
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5)
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 3 
+   remark #15477: vector cost: 1.750 
+   remark #15478: estimated potential speedup: 1.570 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at file-reader.c(186,5)
+<Remainder loop for vectorization>
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+file-reader.c(181,1):remark #34051: REGISTER ALLOCATION : [product] file-reader.c:181
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   12[ rax rdx rcx rsi rdi r8-r9 zmm0-zmm4]
+        
+    Routine temporaries
+        Total         :      55
+            Global    :      17
+            Local     :      38
+        Regenerable   :       3
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

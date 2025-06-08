@@ -1,0 +1,41 @@
+rm -f stencil-nearly-gcc  stencil-complete-gcc \
+      stencil-nearly-icc   stencil-complete-icc \
+      stencil-nearly-icc.optrpt stencil-complete-icc.optrpt
+/opt/apps/alces/intel/psxe/2019u5/bin/icc  -O3 -qopenmp -std=c11 -qopt-report=3 -qopt-report-file=stencil-nearly-icc.optrpt main-nearly.c stencil.c file-reader.c -o stencil-nearly-icc
+===== Intel OpenMP strong-scaling (1 MPI rank) =====
+-> Threads = 1
+STENCIL_TIME: 0.317670
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 2
+STENCIL_TIME: 0.211752
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 4
+STENCIL_TIME: 0.135191
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 8
+STENCIL_TIME: 0.085237
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 16
+STENCIL_TIME: 0.060759
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 32
+STENCIL_TIME: 0.060911
+
+File opened, writing dims
+
+Writing output data

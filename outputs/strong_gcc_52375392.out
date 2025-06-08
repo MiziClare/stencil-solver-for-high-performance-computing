@@ -1,0 +1,41 @@
+rm -f stencil-nearly-gcc  stencil-complete-gcc \
+      stencil-nearly-icc   stencil-complete-icc \
+      stencil-nearly-icc.optrpt stencil-complete-icc.optrpt
+gcc -O3 -fopenmp -std=c11 main-nearly.c stencil.c file-reader.c -o stencil-nearly-gcc
+===== GCC OpenMP strong-scaling (1 MPI rank) =====
+-> Threads = 1
+STENCIL_TIME: 0.162896
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 2
+STENCIL_TIME: 0.193428
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 4
+STENCIL_TIME: 0.121331
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 8
+STENCIL_TIME: 0.073762
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 16
+STENCIL_TIME: 0.043504
+
+File opened, writing dims
+
+Writing output data
+-> Threads = 32
+STENCIL_TIME: 0.024819
+
+File opened, writing dims
+
+Writing output data

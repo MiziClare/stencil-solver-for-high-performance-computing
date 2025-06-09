@@ -2,7 +2,7 @@
   <a href="https://www.liverpool.ac.uk/" target="blank">
     <img src="Liverpool_logo.png" alt="Logo" height="156">
   </a>
- <h1 align="center" style="font-weight: 600">COMP328 High Performance Computing</h1>
+ <h1 align="center" style="font-weight: 600"> Stencil HPC Solver for COMP328 High Performance Computing </h1>
  <h3 align="center">⭐ If this project helped you, please star it. Thanks for your support!</h3>
 
 ## Intro
